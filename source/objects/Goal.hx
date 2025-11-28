@@ -2,6 +2,7 @@ package objects;
 
 // Worldmap support by AnatolyStev
 
+import flixel.util.FlxTimer;
 import worldmap.WorldmapState.WorldMapState;
 import creatures.Tux;
 import flixel.FlxG;
@@ -20,9 +21,10 @@ class Goal extends FlxSprite
 
     public function reach(tux:Tux)
     {
-        if (solid == true) // TODO: Add cutscene (Will be added!)
+        if (solid) // TODO: Add cutscene (Will be added!)
         {
             solid = false;
+            
             Global.tuxState = tux.currentState;
 
             if (!Global.completedLevels.contains(Global.currentLevel))
@@ -30,8 +32,21 @@ class Goal extends FlxSprite
                 Global.completedLevels.push(Global.currentLevel);
             }
 
-            Global.saveProgress();
-            FlxG.switchState(WorldMapState.new);
+            if (FlxG.sound.music != null) // Check if song is playing, if it is, stop song. This if statement is here just to avoid a really weird crash.
+            {
+                FlxG.sound.music.stop();
+            }
+
+            FlxG.sound.playMusic("assets/music/leveldone.ogg", 1.0, false);
+
+            tux.stop();
+            tux.walkRight();
+
+            new FlxTimer().start(8, function(_)
+            {
+                Global.saveProgress();
+                FlxG.switchState(WorldMapState.new);
+            }, 1);
         }
     }
 }

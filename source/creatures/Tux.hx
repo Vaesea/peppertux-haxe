@@ -2,6 +2,7 @@ package creatures;
 
 // Worldmap support by AnatolyStev
 // Ducking support by AnatolyStev (Do NOT mis-read that!)
+// Tux cutscene support by Vaesea (original) and AnatolyStev (fixes)
 
 // Tutorials Used:
 // https://www.youtube.com/watch?v=Qdq-vXt-NOE
@@ -71,6 +72,9 @@ class Tux extends FlxSprite
 
     // Invincibility Frames
     var invFrames = 1.0;
+
+    // Cutscene Stuff
+    var inCutscene = false;
 
     // Images, if replaced, make sure the replacement image has the same animations!
     var smallTuxImage = FlxAtlasFrames.fromSparrow("assets/images/characters/tux/smalltux.png", "assets/images/characters/tux/smalltux.xml");
@@ -209,99 +213,81 @@ class Tux extends FlxSprite
             bigCape.offset.x = 4;
         }
 
-        // Stuff to move Tux
-        if (FlxG.keys.pressed.CONTROL) // Running
+        if (!inCutscene)
         {
-            speed = runSpeed;
-        }
-        else 
-        {
-            speed = walkSpeed;
-        }
-
-        // Ducking stuff
-        if (currentState == Big || currentState == Fire)
-        {
-            if (FlxG.keys.anyPressed([DOWN, S]) && isTouching(FLOOR))
+            // Stuff to move Tux
+            if (FlxG.keys.pressed.CONTROL) // Running
             {
-                isDucking = true;
+                speed = runSpeed;
             }
-            else if (!FlxG.keys.anyPressed([DOWN, S]) && isTouching(FLOOR))
+            else 
+            {
+                speed = walkSpeed;
+            }
+
+            // Ducking stuff
+            if ((currentState == Big || currentState == Fire))
+            {
+                if (FlxG.keys.anyPressed([DOWN, S]) && isTouching(FLOOR))
+                {
+                    isDucking = true;
+                }
+                else if (!FlxG.keys.anyPressed([DOWN, S]) && isTouching(FLOOR))
+                {
+                    isDucking = false;
+                }
+            }
+            else
             {
                 isDucking = false;
             }
-        }
-        else
-        {
-            isDucking = false;
-        }
 
-        maxVelocity.x = speed; // Stop Tux from running too fast. This is very important unless you want him to be like Sonic.
+            maxVelocity.x = speed; // Stop Tux from running too fast. This is very important unless you want him to be like Sonic.
 
-        if (!isDucking || !isTouching(FLOOR))
-        {
-            if (FlxG.keys.anyPressed([LEFT, A]) && !FlxG.keys.anyPressed([RIGHT, D])) // Moving Left
+            if (!isDucking || !isTouching(FLOOR))
             {
-                acceleration.x = -tuxAcceleration;
-            }
-            else if (FlxG.keys.anyPressed([RIGHT, D]) && !FlxG.keys.anyPressed([LEFT, A])) // Moving Right
-            {
-                acceleration.x = tuxAcceleration;
+                if (FlxG.keys.anyPressed([LEFT, A]) && !FlxG.keys.anyPressed([RIGHT, D])) // Moving Left
+                {
+                    acceleration.x = -tuxAcceleration;
+                }
+                else if (FlxG.keys.anyPressed([RIGHT, D]) && !FlxG.keys.anyPressed([LEFT, A])) // Moving Right
+                {
+                    acceleration.x = tuxAcceleration;
+                }
+                else
+                {
+                    acceleration.x = 0;
+                }
             }
             else
             {
                 acceleration.x = 0;
             }
-        }
-        else
-        {
-            acceleration.x = 0;
-        }
 
-        // May look complicated, but checking height IS needed.
-        if (isDucking && (currentState == Big || currentState == Fire))
-        {
-            if (height != 32)
+            if (FlxG.keys.anyJustPressed([SPACE, UP, W]) && isTouching(FLOOR)) // Jumping. Using anyJustPressed so the player can't just hold down the jump button to jump every frame they can.
             {
-                setSize(30, 32);
-                offset.set(10, 35);
-                velocity.y = 1000;
-            }
-        }
-        else if ((currentState == Big || currentState == Fire) && isDucking == false)
-        {
-            if (height != 63)
-            {
-                var prevBottom = y + height;
-                setSize(30, 63);
-                offset.set(10, 4);
-                y = prevBottom - height;
-            }
-        }
+                if (velocity.x == 320 || velocity.x == -320)
+                {
+                    velocity.y = -maxJumpHeight;
+                }
+                else
+                {
+                    velocity.y = -minJumpHeight;
+                }
 
-        if (FlxG.keys.anyJustPressed([SPACE, UP, W]) && isTouching(FLOOR)) // Jumping. Using anyJustPressed so the player can't just hold down the jump button to jump every frame they can.
-        {
-            if (velocity.x == 320 || velocity.x == -320)
-            {
-                velocity.y = -maxJumpHeight;
+                if (currentState == Small) // Play small Tux jump sound
+                {
+                    FlxG.sound.play('assets/sounds/jump.wav');
+                }
+                else if (currentState == Big || currentState == Fire) // Play big Tux jump sound
+                {
+                    FlxG.sound.play('assets/sounds/bigjump.wav');
+                }
             }
-            else
+            if (FlxG.keys.anyJustReleased([SPACE, UP, W]) && velocity.y < 0) // Variable Jump Height Stuff
             {
-                velocity.y = -minJumpHeight;
+                velocity.y = decelerateOnJumpRelease;
             }
-
-            if (currentState == Small) // Play small Tux jump sound
-            {
-                FlxG.sound.play('assets/sounds/jump.wav');
-            }
-            else if (currentState == Big || currentState == Fire) // Play big Tux jump sound (It seems to be the exact same?)
-            {
-                FlxG.sound.play('assets/sounds/bigjump.wav');
-            }
-        }
-        if (FlxG.keys.anyJustReleased([SPACE, UP, W]) && velocity.y < 0) // Variable Jump Height Stuff
-        {
-            velocity.y = decelerateOnJumpRelease;
         }
 
         if (invincible)
@@ -337,6 +323,27 @@ class Tux extends FlxSprite
         {
             smallCape.visible = false;
             bigCape.visible = false;
+        }
+
+        // May look complicated, but checking height IS needed.
+        if (isDucking && (currentState == Big || currentState == Fire))
+        {
+            if (height != 32)
+            {
+                setSize(30, 32);
+                offset.set(10, 35);
+                velocity.y = 1000;
+            }
+        }
+        else if ((currentState == Big || currentState == Fire) && isDucking == false)
+        {
+            if (height != 63)
+            {
+                var prevBottom = y + height;
+                setSize(30, 63);
+                offset.set(10, 4);
+                y = prevBottom - height;
+            }
         }
 
         shootBall();
@@ -412,39 +419,45 @@ class Tux extends FlxSprite
 
     public function takeDamage() //  Makes Tux take damage.
     {
-        if (canTakeDamage == true)
+        if (!inCutscene)
         {
-            canTakeDamage = false;
-            new FlxTimer().start(invFrames, function(_) {canTakeDamage = true;}, 1);
-            FlxG.sound.play('assets/sounds/hurt.wav');
+            if (canTakeDamage == true)
+            {
+                canTakeDamage = false;
+                new FlxTimer().start(invFrames, function(_) {canTakeDamage = true;}, 1);
+                FlxG.sound.play('assets/sounds/hurt.wav');
             
-            if (currentState == Fire) // If current state is fire, make him go down to just being big.
-            {
-                currentState = Big;
-                reloadGraphics();
-            }
-            else if (currentState == Big) // If current state is big, make him go down to just being small.
-            {
-                var prevBottom = y + height;
-                currentState = Small;
-                reloadGraphics();
-                y = prevBottom - height;
-            }
-            else if (currentState == Small) // If current state is small, kill him.
-            {
-                die();
+                if (currentState == Fire) // If current state is fire, make him go down to just being big.
+                {
+                    currentState = Big;
+                    reloadGraphics();
+                }
+                else if (currentState == Big) // If current state is big, make him go down to just being small.
+                {
+                    var prevBottom = y + height;
+                    currentState = Small;
+                    reloadGraphics();
+                    y = prevBottom - height;
+                }
+                else if (currentState == Small) // If current state is small, kill him.
+                {
+                    die();
+                }
             }
         }
     }
     
     public function die() // Tux dies. This will be changed to not just do this.
     {
-        currentState = Small;
-        Global.tuxState = Small;
-        canTakeDamage = false;
-        Global.lives -= 1;
-        Global.coins = 0;
-        FlxG.resetState();
+        if (!inCutscene)
+        {
+            currentState = Small;
+            Global.tuxState = Small;
+            canTakeDamage = false;
+            Global.lives -= 1;
+            Global.coins = 0;
+            FlxG.resetState();
+        }
     }
 
     public function reloadGraphics()
@@ -547,5 +560,67 @@ class Tux extends FlxSprite
             canShoot = false;
             new FlxTimer().start(shootCooldown, function(_) canShoot = true);
         }
+    }
+
+    // Cutscene functions
+
+    public function stop()
+    {
+        velocity.x = 0;
+        acceleration.x = 0;
+        velocity.y = 0;
+        drag.x = 0;
+        maxVelocity.x = 0;
+        inCutscene = true;
+    }
+
+    public function start()
+    {
+        maxVelocity.x = speed;
+        drag.x = deceleration;
+        inCutscene = false;
+    }
+
+    public function walkRight()
+    {
+        maxVelocity.x = walkSpeed;
+        drag.x = 0;
+        acceleration.x = 230;
+    }
+
+    public function walkLeft()
+    {
+        maxVelocity.x = walkSpeed;
+        drag.x = deceleration;
+        acceleration.x = -230;
+    }
+
+    public function runRight()
+    {
+        maxVelocity.x = runSpeed;
+        drag.x = deceleration;
+        acceleration.x = 320;
+    }
+
+    public function runLeft()
+    {
+        maxVelocity.x = runSpeed;
+        drag.x = deceleration;
+        acceleration.x = -320;
+    }
+
+    public function jumpSmall()
+    {
+        velocity.y = minJumpHeight / 2;
+    }
+
+    public function jump()
+    {
+        velocity.y = minJumpHeight;
+    }
+
+    public function jumpHigh()
+    {
+        velocity.y = maxJumpHeight;
     }
 }

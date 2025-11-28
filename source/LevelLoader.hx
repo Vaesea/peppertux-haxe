@@ -1,9 +1,10 @@
 package;
 
+import objects.Scripting;
+import creatures.misc.Flame;
 import creatures.snow.Crystallo;
 import objects.SolidKill;
 import creatures.snow.IceKrush;
-import flixel.FlxSprite;
 import flixel.addons.editors.tiled.TiledImageLayer;
 import creatures.tropical.Snake;
 import creatures.forest.ghost.FatBat;
@@ -136,6 +137,46 @@ class LevelLoader extends FlxState
         state.add(backgroundMap);
 
         // Load collision
+        for (solid in getLevelObjects(tiledMap, "Cutscene"))
+        {
+            switch (solid.type)
+            {
+                case "StopTux":
+                    var stopSquare = new StopTux(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(stopSquare);
+                case "StartTux":
+                    var startSquare = new StartTux(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(startSquare);
+                case "WalkTuxRight":
+                    var walkRightSquare = new WalkTuxRight(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(walkRightSquare);
+                case "WalkTuxLeft":
+                    var walkLeftSquare = new WalkTuxLeft(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(walkLeftSquare);
+                case "RunTuxRight":
+                    var runRightSquare = new RunTuxRight(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(runRightSquare);
+                case "RunTuxLeft":
+                    var runLeftSquare = new RunTuxLeft(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(runLeftSquare);
+                case "TuxJumpSmall":
+                    var jumpSmallSquare = new TuxJumpSmall(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(jumpSmallSquare);
+                case "TuxJump":
+                    var tuxJumpSquare = new TuxJump(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(tuxJumpSquare);
+                case "TuxJumpHigh":
+                    var jumpHighSquare = new TuxJumpHigh(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(jumpHighSquare);
+                case "FadeOut":
+                    var fadeOutSquare = new FadeOut(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(fadeOutSquare);
+                case "StopTuxAndWalkRight":
+                    var stopAndWalkRightSquare = new StopTuxAndWalkRight(solid.x, solid.y, solid.width, solid.height);
+                    state.scripting.add(stopAndWalkRightSquare);
+            }
+        }
+
         for (solid in getLevelObjects(tiledMap, "Solid"))
         {
             var solidSquare = new Solid(solid.x, solid.y, solid.width, solid.height); // Need this because width and height.
@@ -291,6 +332,8 @@ class LevelLoader extends FlxState
                     state.enemies.add(new Grab(enemy.x, enemy.y - 35));
                 case "snake":
                     state.enemies.add(new Snake(enemy.x, enemy.y - 8));
+                case "flame":
+                    state.enemies.add(new Flame(enemy.x, enemy.y - 32));
             }
         
         for (object in getLevelObjects(tiledMap, "Animated Tiles Foreground"))

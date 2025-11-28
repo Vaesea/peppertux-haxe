@@ -3,6 +3,7 @@ package states;
 // Original file made by Vaesea
 // Saving Tux's state support done by AnatoyStev
 
+import objects.Scripting;
 import objects.SolidKill;
 import objects.movingplatforms.FloatingPlatform;
 import objects.Trampoline;
@@ -35,6 +36,7 @@ class PlayState extends FlxState
 	public var collision(default, null):FlxTypedGroup<FlxSprite>;
 	public var hurtCollision(default, null):FlxTypedGroup<FlxSprite>;
 	public var killCollision(default, null):FlxTypedGroup<FlxSprite>;
+	public var scripting(default, null):FlxTypedGroup<Scripting>;
 	public var atiles(default, null):FlxTypedGroup<FlxSprite>;
 	public var tux(default, null):Tux;
 	public var items(default, null):FlxTypedGroup<FlxSprite>;
@@ -59,6 +61,7 @@ class PlayState extends FlxState
 		collision = new FlxTypedGroup<FlxSprite>();
 		hurtCollision = new FlxTypedGroup<FlxSprite>();
 		killCollision = new FlxTypedGroup<FlxSprite>();
+		scripting = new FlxTypedGroup<Scripting>();
 		atiles = new FlxTypedGroup<FlxSprite>();
 		entities = new FlxGroup();
 		items = new FlxTypedGroup<FlxSprite>();
@@ -87,6 +90,7 @@ class PlayState extends FlxState
 		add(collision);
 		add(hurtCollision);
 		add(killCollision);
+		add(scripting);
 		add(atiles);
 		add(map);
 		add(entities);
@@ -114,6 +118,7 @@ class PlayState extends FlxState
 		FlxG.overlap(killCollision, tux, collideKillCollision);
 		FlxG.overlap(entities, tux, collideEntities);
 		FlxG.overlap(td, tux, collideTuxDoll);
+		FlxG.overlap(scripting, tux, collideEntities);
 		FlxG.collide(tux, blocks, collideEntities);
 		FlxG.collide(tux, bricks, collideEntities);
 		FlxG.collide(trampolines, tux, collideEntities);
@@ -159,6 +164,11 @@ class PlayState extends FlxState
 		}
 
 		if (Std.isOfType(entity, Enemy))
+		{
+			(cast entity).interact(tux);
+		}
+
+		if (Std.isOfType(entity, Scripting))
 		{
 			(cast entity).interact(tux);
 		}

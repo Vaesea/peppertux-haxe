@@ -10,7 +10,7 @@
  <tileset firstgid="3897" source="../tilesets/items.tsx"/>
  <tileset firstgid="3905" source="../tilesets/blocks.tsx"/>
  <tileset firstgid="3920" source="../tilesets/waves.tsx"/>
- <imagelayer id="20" name="Background Image" offsetx="400" offsety="400" parallaxx="0.4" parallaxy="0.4" repeatx="1" repeaty="1">
+ <imagelayer id="20" name="Background Image" offsetx="0" offsety="300" parallaxx="0.4" parallaxy="0.4" repeatx="1" repeaty="1">
   <image source="../../images/backgrounds/arctis.png" width="1600" height="1472"/>
   <properties>
    <property name="offsetX" type="float" value="400"/>
