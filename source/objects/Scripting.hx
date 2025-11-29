@@ -1,5 +1,6 @@
 package objects;
 
+import states.OutroState;
 import flixel.util.FlxTimer;
 import worldmap.WorldmapState.WorldMapState;
 import flixel.FlxG;
@@ -184,6 +185,32 @@ class FadeOut extends Scripting
 
             Global.saveProgress();
             FlxG.switchState(WorldMapState.new);
+        });
+    }
+}
+
+class FadeOutToOutro extends Scripting
+{
+    public function new(x:Float, y:Float, width:Int, height:Int)
+    {
+        super(x, y, width, height);
+    }
+
+    public function interact(tux:Tux)
+    {
+        solid = false;
+        Global.PS.camera.fade(FlxColor.BLACK, 2, false, function()
+        {
+            
+            Global.tuxState = tux.currentState;
+
+            if (!Global.completedLevels.contains(Global.currentLevel))
+            {
+                Global.completedLevels.push(Global.currentLevel);
+            }
+
+            Global.saveProgress();
+            FlxG.switchState(OutroState.new);
         });
     }
 }

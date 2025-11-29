@@ -330,6 +330,8 @@ class LevelLoader extends FlxState
                     state.enemies.add(new Snake(enemy.x, enemy.y - 8));
                 case "flame":
                     state.enemies.add(new Flame(enemy.x, enemy.y - 32));
+                case "iceflame":
+                    state.enemies.add(new IceFlame(enemy.x, enemy.y - 32));
             }
         
         for (object in getLevelObjects(tiledMap, "Animated Tiles Foreground"))
