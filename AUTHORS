@@ -35,8 +35,12 @@ assets/images/characters/crab.* - Vaesea - PepperTux
 assets/images/characters/brab.* - Vaesea - PepperTux
 assets/images/characters/foreststalactite.* - Grumbel (Forest Tiles), Vaesea (Stalactite version) - SuperTux (Forest Tiles), PepperTux (Stalactite Version)
 assets/images/characters/grab.* - Vaesea - PepperTux
+assets/images/characters/snake.* - Vaesea - PepperTux
+assets/images/characters/*snake.* - Vaesea - PepperTux
 assets/images/normalTiles.png - SuperTux Team (Most tiles), Vaesea (Some tiles), FilipOK (Palm Tree, Stone, Stone Background, Cactus, Sandstone) - SuperTux (Most tiles), PepperTux (Other Tiles)
 assets/images/cutscene/intro.png - Grumbel (Images used for this image), Vaesea (Putting it all together), FilipOK (Nolok image) - SuperTux (Original Images), PepperTux
+assets/images/backgrounds/darkjungle.png - FilipOK - PepperTux
+assets/images/backgrounds/beach.png - FilipOK - PepperTux
 
 == Music ==
 assets/music/airship_remix.ogg - Bart (Original + OpenGameArt website), Remaxim (Orchestral Remix) - OpenGameArt (https://opengameart.org/content/airship-song-orchestral-remix)
@@ -47,9 +51,8 @@ assets/music/bonuscave_2.ogg - Wansti (Original Bonus Cave), FilipOK - SuperTux 
 assets/music/pingus_5.ogg - ZhayTee - Pingus
 assets/music/pingus_6.ogg - ZhayTee - Pingus
 assets/music/pingus_9.ogg - ZhayTee - Pingus
+assets/music/beach.ogg - Vaesea - HaxeTux
+assets/music/cold_day.ogg - Vaesea - PepperTux
 
 == Sounds ==
 assets/sounds/coconut.wav - Edise - Freesound
-
-== Fonts ==
-assets/fonts/SuperTux-Medium.ttf - SuperTux Team - SuperTux
