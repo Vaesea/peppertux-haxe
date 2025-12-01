@@ -1,5 +1,7 @@
 package;
 
+import creatures.tropical.BrownSnake;
+import creatures.tropical.PurpleSnake;
 import objects.Scripting;
 import creatures.misc.Flame;
 import creatures.snow.Crystallo;
@@ -308,6 +310,8 @@ class LevelLoader extends FlxState
                     state.enemies.add(new IceStalactite(enemy.x, enemy.y - 32));
                 case "foreststalactite":
                     state.enemies.add(new ForestStalactite(enemy.x, enemy.y - 36));
+                case "mountainstalactite":
+                    state.enemies.add(new MountainStalactite(enemy.x, enemy.y - 39));
                 case "coconut":
                     state.enemies.add(new Coconut(enemy.x, enemy.y - 32));
                 case "viciousivy":
@@ -328,6 +332,10 @@ class LevelLoader extends FlxState
                     state.enemies.add(new Grab(enemy.x, enemy.y - 35));
                 case "snake":
                     state.enemies.add(new Snake(enemy.x, enemy.y - 8));
+                case "purplesnake":
+                    state.enemies.add(new PurpleSnake(enemy.x, enemy.y - 8));
+                case "brownsnake":
+                    state.enemies.add(new BrownSnake(enemy.x, enemy.y - 8));
                 case "flame":
                     state.enemies.add(new Flame(enemy.x, enemy.y - 32));
                 case "iceflame":
@@ -339,11 +347,11 @@ class LevelLoader extends FlxState
             switch (object.type)
             {
                 default:
-                    state.atiles.add(new WaterNew(object.x, object.y - 32));
+                    state.atilesFront.add(new WaterNew(object.x, object.y - 32));
                 case "flag":
-                    state.atiles.add(new Flag(object.x, object.y - 32));
+                    state.atilesFront.add(new Flag(object.x, object.y - 32));
                 case "lava":
-                    state.atiles.add(new Lava(object.x, object.y - 32));
+                    state.atilesFront.add(new Lava(object.x, object.y - 32));
             }
         }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="521" height="75" tilewidth="32" tileheight="32" infinite="0" nextlayerid="26" nextobjectid="756">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="521" height="75" tilewidth="32" tileheight="32" infinite="0" nextlayerid="26" nextobjectid="770">
  <properties>
   <property name="levelCreator" value="Sophie Ball"/>
   <property name="levelName" value="Ghostlike Forest"/>
@@ -10,11 +10,11 @@
  <tileset firstgid="3897" source="../tilesets/items.tsx"/>
  <tileset firstgid="3905" source="../tilesets/blocks.tsx"/>
  <tileset firstgid="3920" source="../tilesets/waves.tsx"/>
- <imagelayer id="25" name="Background Image" offsetx="400" offsety="400" parallaxx="0.4" parallaxy="0.4" repeatx="1" repeaty="1">
-  <image source="../../images/backgrounds/ghostforest.png" width="1600" height="736"/>
+ <imagelayer id="25" name="Background Image" offsetx="0" offsety="-200" parallaxx="0.4" parallaxy="0.4" repeatx="1" repeaty="1">
+  <image source="../../images/backgrounds/ghostforest.png" width="800" height="600"/>
   <properties>
    <property name="offsetX" type="float" value="400"/>
-   <property name="offsetY" type="float" value="400"/>
+   <property name="offsetY" type="float" value="200"/>
   </properties>
  </imagelayer>
  <layer id="17" name="Furthest Background" width="521" height="75">
@@ -49,7 +49,6 @@
   </data>
  </layer>
  <objectgroup id="10" name="Enemies">
-  <object id="562" type="kirby" gid="3867" x="928" y="2144" width="32" height="32"/>
   <object id="563" type="kirby" gid="3867" x="800" y="2144" width="32" height="32"/>
   <object id="564" type="kirby" gid="3867" x="1728" y="2272" width="32" height="32"/>
   <object id="566" type="kirby" gid="3867" x="1984" y="2272" width="32" height="32"/>
@@ -64,7 +63,6 @@
   <object id="584" type="snail" gid="3874" x="4896" y="2272" width="32" height="32"/>
   <object id="585" type="snail" gid="3874" x="6016" y="2272" width="32" height="32"/>
   <object id="589" type="walkingleaf" gid="3881" x="6976" y="1952" width="32" height="32"/>
-  <object id="590" type="walkingleaf" gid="3881" x="7328" y="1888" width="32" height="32"/>
   <object id="591" type="walkingleaf" gid="3881" x="7712" y="1856" width="32" height="32"/>
   <object id="592" type="walkingleaf" gid="3881" x="8416" y="1856" width="32" height="32"/>
   <object id="593" type="kirby" gid="3867" x="6336" y="2208" width="32" height="32"/>
@@ -83,6 +81,17 @@
   <object id="607" type="kirby" gid="3867" x="14880" y="2080" width="32" height="32"/>
   <object id="608" type="kirby" gid="3867" x="15456" y="2080" width="32" height="32"/>
   <object id="609" type="kirby" gid="3867" x="15872" y="2080" width="32" height="32"/>
+  <object id="756" type="fatbat" gid="3847" x="928" y="2144" width="32" height="32"/>
+  <object id="757" type="fatbat" gid="3847" x="3552" y="1792" width="32" height="32"/>
+  <object id="758" type="fatbat" gid="3847" x="5696" y="2336" width="32" height="32"/>
+  <object id="760" type="fatbat" gid="3847" x="5600" y="2336" width="32" height="32"/>
+  <object id="761" type="fatbat" gid="3847" x="7360" y="1888" width="32" height="32"/>
+  <object id="763" type="fatbat" gid="3847" x="8768" y="1888" width="32" height="32"/>
+  <object id="764" type="fatbat" gid="3847" x="12800" y="2272" width="32" height="32"/>
+  <object id="766" type="fatbat" gid="3847" x="14720" y="2080" width="32" height="32"/>
+  <object id="767" type="fatbat" gid="3847" x="15264" y="2080" width="32" height="32"/>
+  <object id="768" type="fatbat" gid="3847" x="15488" y="1792" width="32" height="32"/>
+  <object id="769" type="fatbat" gid="3847" x="15136" y="1856" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="8" name="Coins"/>
  <objectgroup id="6" name="Player">
